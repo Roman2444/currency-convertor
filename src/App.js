@@ -11,7 +11,12 @@ const [toPrice, setToPrice] = React.useState(0);
 const [rates, setRates] = React.useState({});
 
 const onChangeFromPrice = (value) => {
+  const price = value / rates[`RUB${fromCurrency}`];
+  console.log('----*-',toCurrency);
+  const result = price * rates[`RUB${toCurrency}`];
   setFromPrice(value);
+  setToPrice(price);
+
 }
 
 const onChangeToPrice = (value) => {
@@ -19,18 +24,10 @@ const onChangeToPrice = (value) => {
 }
 
 const getCourses = () => {
-  var myHeaders = new Headers();
-  myHeaders.append("apikey", "5rnWmZNgbGFETcx5BJHMIubs5dvQui4w");
   
-  var requestOptions = {
-    method: 'GET',
-    redirect: 'follow',
-    headers: myHeaders
-  };
-  
-  fetch("https://api.apilayer.com/currency_data/live?source=USD&currencies=EUR%2CRUB%2CGBP%2CUSD", requestOptions)
+  fetch("https://www.cbr-xml-daily.ru/daily_json.js")
   .then(response => response.json())
-    .then(response => setRates(response.quotes))
+    .then(response => setRates(response.Valute))
     .catch(error => {
       console.log('error', error);
       alert('Ошибка получения данных')
