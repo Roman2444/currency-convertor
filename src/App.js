@@ -8,14 +8,14 @@ const [toCurrency, setToCurrency] = React.useState('USD');
 const [fromPrice, setFromPrice] = React.useState(0);
 const [toPrice, setToPrice] = React.useState(0);
 
-const [rates, setRates] = React.useState({});
+const [rates, setRates] = React.useState({RUB:{Value:1}});
 
 const onChangeFromPrice = (value) => {
-  const price = value / rates[`RUB${fromCurrency}`];
-  console.log('----*-',toCurrency);
-  const result = price * rates[`RUB${toCurrency}`];
+  const price = value / rates[fromCurrency]['Value'];
+  console.log('----*-',fromCurrency);
+  const result = price * rates[toCurrency]['Value'];
   setFromPrice(value);
-  setToPrice(price);
+  setToPrice(result);
 
 }
 
@@ -27,7 +27,7 @@ const getCourses = () => {
   
   fetch("https://www.cbr-xml-daily.ru/daily_json.js")
   .then(response => response.json())
-    .then(response => setRates(response.Valute))
+    .then(response => setRates({...rates, ...response.Valute}))
     .catch(error => {
       console.log('error', error);
       alert('Ошибка получения данных')
