@@ -3,10 +3,11 @@ import { Block } from './Block';
 import './index.scss';
 
 function App() {
+const [fromCurrency, setFromCurrency] = React.useState('RUB')
 const [rates, setRates] = React.useState({});
 
-React.useEffect(() => {
 
+const getCourses = () => {
   var myHeaders = new Headers();
   myHeaders.append("apikey", "5rnWmZNgbGFETcx5BJHMIubs5dvQui4w");
   
@@ -16,14 +17,20 @@ React.useEffect(() => {
     headers: myHeaders
   };
   
-  fetch("https://api.apilayer.com/fixer/latest?symbols=RUB&base=EUR", requestOptions)
-    .then(response => response.json())
-    .then(response => setRates(response.rates))
-    .catch(error => console.log('error', error));
+  fetch("https://api.apilayer.com/currency_data/live?source=USD&currencies=EUR%2CRUB%2CGBP%2CUSD", requestOptions)
+  .then(response => response.json())
+    .then(response => setRates(response.quotes))
+    .catch(error => {
+      console.log('error', error);
+      alert('Ошибка получения данных')
+    });
+}
 
+React.useEffect(() => {
+  getCourses();
 }, []);
 
-console.log('**>', rates)
+console.log('**>', rates);
 
   return (
     <div className="App">
