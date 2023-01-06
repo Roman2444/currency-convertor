@@ -37,8 +37,6 @@ React.useEffect(() => {
   getCourses();
 }, []);
 
-console.log('**>', rates);
-
   return (
     <div className="App">
       <Block 
