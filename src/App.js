@@ -13,13 +13,13 @@ const [rates, setRates] = React.useState({RUB:{Value:1}});
 const onChangeFromPrice = (value, currency=fromCurrency) => {
   const result = value * rates[currency]['Value'] / rates[toCurrency]['Value'];
   setFromPrice(value);
-  setToPrice(result);
+  setToPrice(result.toFixed(3));
 }
 
 const onChangeToPrice = (value, currency=toCurrency) => {
   const result = value / rates[fromCurrency]['Value'] * rates[currency]['Value'];
   setToPrice(value);
-  setFromPrice(result);
+  setFromPrice(result.toFixed(3));
 }
 
 const getCourses = () => {
